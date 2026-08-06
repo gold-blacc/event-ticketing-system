@@ -1,65 +1,86 @@
 import json
 import boto3
 import uuid
-from datetime import datetime
+from decimal import Decimal
 
-dynamodb = boto3.resource('dynamodb')
-events_table = dynamodb.Table('EventsTable')
-registrations_table = dynamodb.Table('RegistrationsTable')
-sns = boto3.client('sns')
-SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:340577260283:EventRegistrationNotifications'
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return int(obj) if obj % 1 == 0 else float(obj)
+        return super(DecimalEncoder, self).default(obj)
 
 def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+    events_table = dynamodb.Table('EventsTable')
+    registrations_table = dynamodb.Table('RegistrationsTable')
+
     try:
-        body = json.loads(event['body'])
-        event_id = body['eventId']
-        email = body['email']
+        body = json.loads(event.get('body', '{}')) if isinstance(event.get('body'), str) else (event.get('body') or {})
+    except Exception:
+        body = {}
 
-        response = events_table.get_item(Key={'eventId': event_id})
-        if 'Item' not in response:
-            return response_json(404, {'message': 'Event not found'})
+    event_id = body.get('eventId')
+    user_name = body.get('userName') or body.get('name')
 
-        event_item = response['Item']
-        if event_item['registered'] >= event_item['capacity']:
-            return response_json(400, {'message': 'Event is full'})
+    if not event_id or not user_name:
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": json.dumps({"message": "Missing required fields: eventId and userName"})
+        }
 
-        registration_id = str(uuid.uuid4())
-        registrations_table.put_item(Item={
-            'registrationId': registration_id,
-            'eventId': event_id,
-            'email': email,
-            'registeredAt': datetime.utcnow().isoformat()
-        })
+    event_response = events_table.get_item(Key={'eventId': event_id})
+    event_item = event_response.get('Item')
 
-        events_table.update_item(
-            Key={'eventId': event_id},
-            UpdateExpression='SET registered = registered + :inc',
-            ExpressionAttributeValues={':inc': 1}
-        )
+    if not event_item:
+        return {
+            "statusCode": 404,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": json.dumps({"message": "Event not found"})
+        }
 
-        try:
-            sns.publish(
-                TopicArn=SNS_TOPIC_ARN,
-                Message=f"You're registered for {event_item['eventName']}!",
-                Subject='Event Registration Confirmation'
-            )
-        except Exception as sns_error:
-            print(f"SNS notification failed (non-critical): {sns_error}")
+    capacity = event_item.get('capacity', 0)
+    registered = event_item.get('registered', 0)
 
-        return response_json(200, {
-            'message': 'Registration successful',
-            'registrationId': registration_id
-        })
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        return response_json(500, {'message': 'Internal server error'})
+    if registered >= capacity:
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": json.dumps({"message": "Event is fully booked"})
+        }
 
-def response_json(status_code, body_dict):
+    registration_id = f"reg-{uuid.uuid4().hex[:8]}"
+    registration_item = {
+        'registrationId': registration_id,
+        'eventId': event_id,
+        'userName': user_name,
+        'status': 'CONFIRMED'
+    }
+    registrations_table.put_item(Item=registration_item)
+
+    events_table.update_item(
+        Key={'eventId': event_id},
+        UpdateExpression="SET registered = registered + :val",
+        ExpressionAttributeValues={':val': 1}
+    )
+
     return {
-        'statusCode': status_code,
-        'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+        "statusCode": 201,
+        "headers": {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
         },
-        'body': json.dumps(body_dict)
+        "body": json.dumps({
+            "message": "Registration successful",
+            "registration": registration_item
+        }, cls=DecimalEncoder)
     }
