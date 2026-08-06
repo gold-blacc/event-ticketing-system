@@ -11,7 +11,7 @@ class DecimalEncoder(json.JSONEncoder):
 
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('YourTableName') # Make sure table name matches yours
+    table = dynamodb.Table('EventsTable') # Make sure table name matches yours
     
     response = table.scan()
     items = response.get('Items', [])
