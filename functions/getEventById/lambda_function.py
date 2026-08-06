@@ -1,31 +1,39 @@
 import json
 import boto3
+from decimal import Decimal
 
-dynamodb = boto3.resource('dynamodb')
-events_table = dynamodb.Table('EventsTable')
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return int(obj) if obj % 1 == 0 else float(obj)
+        return super(DecimalEncoder, self).default(obj)
 
 def lambda_handler(event, context):
-    try:
-        event_id = event['pathParameters']['eventId']
-        response = events_table.get_item(Key={'eventId': event_id})
-        if 'Item' not in response:
-            return {
-                'statusCode': 404,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps({'message': 'Event not found'})
-            }
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+    table = dynamodb.Table('EventsTable')
+    
+    path_params = event.get('pathParameters') or {}
+    event_id = path_params.get('id')
+    
+    if not event_id:
         return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'body': json.dumps(response['Item'])
+            "statusCode": 400,
+            "headers": {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"},
+            "body": json.dumps({"message": "Missing event ID"})
         }
-    except Exception as e:
-        print(f"Error: {str(e)}")
+
+    response = table.get_item(Key={'eventId': event_id})
+    item = response.get('Item')
+    
+    if not item:
         return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps({'message': 'Internal server error'})
+            "statusCode": 404,
+            "headers": {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"},
+            "body": json.dumps({"message": "Event not found"})
         }
+
+    return {
+        "statusCode": 200,
+        "headers": {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"},
+        "body": json.dumps(item, cls=DecimalEncoder)
+    }
