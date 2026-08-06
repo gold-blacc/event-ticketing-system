@@ -2,7 +2,7 @@ import json
 import boto3
 from decimal import Decimal
 
-# Custom helper to serialize DynamoDB Decimal types
+# Helper class to convert Decimal types for JSON serialization
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Decimal):
@@ -13,10 +13,20 @@ def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
     table = dynamodb.Table('EventsTable')
     
-    # Extract path parameters from API Gateway
+    # Extract path parameter
     path_params = event.get('pathParameters') or {}
     event_id = path_params.get('id')
     
+    if not event_id:
+        return {
+            "statusCode": 400,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": json.dumps({"message": "Missing event ID in path"})
+        }
+
     response = table.get_item(Key={'eventId': event_id})
     item = response.get('Item')
     
