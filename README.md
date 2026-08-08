@@ -1,35 +1,37 @@
 # Serverless Event Ticketing System
 
-A scalable, serverless Event Ticketing API built on AWS using Lambda, DynamoDB, and API Gateway, with automated CI/CD deployments via GitHub Actions.
-
-## Architecture
-
-* **API Gateway**: REST API managing endpoints and routing.
-* **AWS Lambda (Python 3.15)**: Serverless compute functions handling business logic, data validation, and atomic database operations.
-* **AWS DynamoDB**: NoSQL database hosting `EventsTable` and `RegistrationsTable`.
-* **GitHub Actions**: Continuous integration and deployment pipeline updating Lambda functions on `main` branch pushes.
+An end-to-end, event-driven ticketing platform built on AWS, deployed automatically via GitHub Actions CI/CD pipelines, and provisioned using Terraform Infrastructure as Code (IaC).
 
 ---
 
-## API Documentation
+## 🏛️ System Architecture & Tech Stack
 
-### Base URL
-`https://adqrmc34qb.execute-api.us-east-1.amazonaws.com/prod`
+* **Compute:** AWS Lambda (Python 3.x) handling event lookups, registrations, and error handling.
+* **API Layer:** Amazon API Gateway REST endpoints with CORS enabled for web frontends.
+* **Database:** Amazon DynamoDB NoSQL tables for atomic capacity updates and guest registrations.
+* **Infrastructure as Code:** Terraform for declarative cloud resource management.
+* **CI/CD Pipeline:** GitHub Actions automated workflows testing and deploying Lambda functions on push.
+* **Frontend Portal:** Responsive glassmorphic UI hosted on S3 integrating live backend endpoints.
 
-### Endpoints
+---
 
-#### 1. List All Events
-* **HTTP Method**: `GET`
-* **Path**: `/events`
-* **Success Response (200 OK)**:
-  ```json
-  [
-    {
-      "eventId": "evt001",
-      "eventName": "AWS Workshop Accra 2026",
-      "capacity": 100,
-      "date": "2026-05-15",
-      "registered": 2,
-      "status": "Available"
-    }
-  ]
+## 🛠️ Key Technical Challenges Solved
+
+1. **DynamoDB Decimal Serialization:** Designed custom Python JSON encoders to handle DynamoDB numerical types seamlessly over HTTP.
+2. **Atomic Counter Updates:** Used DynamoDB `UpdateExpression` logic to prevent race conditions during concurrent booking spikes.
+3. **Resilient Error Handling:** Implemented structured 400 Bad Request and 404 Not Found payloads for invalid payloads and missing event records.
+
+---
+
+## 🚀 Live API Endpoints
+
+* **`GET /events`** - Fetch all active events and seating capacities
+* **`GET /events/{eventId}`** - Fetch single event details
+* **`POST /register`** - Register a guest for an event
+
+```json
+// Example POST /register payload
+{
+  "eventId": "evt001",
+  "userName": "Sandra Oteng Abrokwah"
+}
