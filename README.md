@@ -81,6 +81,7 @@ terraform apply
   Only 'yes' will be accepted to approve.
 
   Enter a value:.*
+  
 4. **Confirm SNS Subscription:**
 Check the administrator email address specified in your Terraform configuration and click **Confirm
 Subscription** in the AWS email.
