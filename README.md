@@ -97,4 +97,4 @@ execution permissions specifically for `dynamodb:DescribeStream`, `dynamodb:GetR
 
 *Cloud Support &amp; AI Infrastructure Engineer*
 * **LinkedIn:** [linkedin.com/in/sandraotengabrokwah](https://linkedin.com)
-* **Certification:** AWS Simulearn / Cloud Practictioner
+* **Certification:** AWS Simulearn AI/ Cloud Practictioner
