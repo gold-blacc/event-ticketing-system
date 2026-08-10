@@ -4,6 +4,8 @@ An event-driven, serverless event ticketing and notification system built on AWS
 
 This portal demonstrates production-grade cloud architecture, real-time database streaming, automated notifications, and secure API integrations tailored for modern cloud support and AI cloud operations.
 
+**Live Demo:** [https://d686wc2aajlxo.cloudfront.net/](https://d686wc2aajlxo.cloudfront.net/)
+
 ---
 
 ## 📐 Architecture Overview
