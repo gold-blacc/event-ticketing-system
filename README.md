@@ -81,25 +81,26 @@ terraform apply
   Only 'yes' will be accepted to approve.
 
   Enter a value:.*
-  
+
 4. **Confirm SNS Subscription:**
 Check the administrator email address specified in your Terraform configuration and click **Confirm
 Subscription** in the AWS email.
 ---
-## �� Troubleshooting &amp; Cloud Support Scenarios
-As part of operating this system, the following cloud support &amp; network diagnostic steps were
-implemented and verified:
-* **CORS Access Control:** Resolved cross-origin browser restriction errors by configuring explicit
-`Access-Control-Allow-Origin` headers on both API Gateway resources and Lambda return payloads.
-* **Stream Trigger Diagnosing:** Verified DynamoDB stream view type configurations (`NEW_IMAGE`)
-to ensure full item attributes are passed payload-intact to downstream Lambda triggers.
-* **IAM Least Privilege:** Configured targeted IAM policies granting Lambda functions restricted
-execution permissions specifically for `dynamodb:DescribeStream`, `dynamodb:GetRecords`, and
-`sns:Publish`.
----
-## �� Author
-**Sandra Oteng Abrokwah**
+## 🔍 Troubleshooting & Cloud Support Scenarios
 
-*Cloud Support &amp; AI Infrastructure Engineer*
-* **LinkedIn:** [linkedin.com/in/sandraotengabrokwah](https://linkedin.com)
-* **Certification:** AWS Simulearn AI/ Cloud Practictioner
+![Cloud Support Troubleshooting Diagnostics](assets/troubleshooting.png)
+
+As part of operating this system, the following cloud support & network diagnostic steps were implemented and verified:
+
+* **CORS Access Control:** Resolved cross-origin browser restriction errors by configuring explicit `Access-Control-Allow-Origin` headers on both API Gateway resources and Lambda return payloads.
+* **Stream Trigger Diagnosing:** Verified DynamoDB stream view type configurations (`NEW_IMAGE`) to ensure full item attributes are passed payload-intact to downstream Lambda triggers.
+* **IAM Least Privilege:** Configured targeted IAM policies granting Lambda functions restricted execution permissions specifically for `dynamodb:DescribeStream`, `dynamodb:GetRecords`, and `sns:Publish`.
+---
+## 👤 Author
+
+<img src="assets/profile.png" width="120" height="120" style="border-radius: 50%;" alt="Sandra Oteng Abrokwah"/>
+
+**Sandra Oteng Abrokwah**  
+*Cloud Support & AI Infrastructure Engineer*  
+* **LinkedIn:** [linkedin.com/in/sandraotengabrokwah](https://linkedin.com)  
+* **Certification:** AWS Simulearn AI / Cloud Practictioner.
