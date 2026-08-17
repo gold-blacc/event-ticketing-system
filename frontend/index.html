@@ -3,285 +3,864 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GODMANOR | Cloud & AI Engineering Summit Concierge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <title>GODMANOR Summit | Cloud & AI Engineering 2026</title>
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#F59E0B',
+              goldLight: '#FDE68A',
+              crimson: '#6B0F24',
+              navy: '#0B132B'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            display: ['Cinzel', 'Playfair Display', 'Georgia', 'serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
-    :root {
-      --gold-primary: #D4AF37;
-      --gold-light: #F3E5AB;
-      --burgundy-bg: #2B0410;
-      --burgundy-card: rgba(58, 8, 24, 0.75);
-      --glass-border: rgba(212, 175, 55, 0.3);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
     body {
-      background-color: var(--burgundy-bg);
-      background-image: 
-        radial-gradient(circle at 20% 20%, rgba(128, 15, 48, 0.45) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%);
-      color: #FFFFFF;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
-      padding: 2.5rem 1rem;
+      -webkit-font-smoothing: antialiased;
+      background-color: #0A0F1D;
+      color: #F3F4F6;
     }
-
-    .container { max-width: 1100px; margin: 0 auto; }
-
-    header {
-      text-align: center;
-      margin-bottom: 3.5rem;
-    }
-
-    header h1 {
+    .font-brand-display {
       font-family: 'Cinzel', serif;
-      font-size: 3.2rem;
-      letter-spacing: 0.25em;
-      background: linear-gradient(135deg, #FFFFFF 20%, var(--gold-primary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.12em;
     }
-
-    header p {
-      color: var(--gold-light);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      opacity: 0.9;
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-
-    .events-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-      margin-bottom: 4rem;
-    }
-
-    .card {
-      background: var(--burgundy-card);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(16px);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      border-color: var(--gold-primary);
-      box-shadow: 0 12px 40px rgba(212, 175, 55, 0.2);
-    }
-
-    .card-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-    }
-
-    .card-body { padding: 1.5rem; }
-
-    .card-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.25rem;
-      color: #FFF;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-desc {
-      font-size: 0.875rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 1.25rem;
-      line-height: 1.5;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-light);
-      border-radius: 20px;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      margin-bottom: 1rem;
-    }
-
-    /* Form Container */
-    .booking-panel {
-      max-width: 520px;
-      margin: 0 auto;
-      background: rgba(35, 4, 13, 0.9);
-      border: 1px solid var(--gold-primary);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 2.5rem;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    }
-
-    .booking-panel h2 {
-      font-family: 'Cinzel', serif;
-      color: var(--gold-light);
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .form-group { margin-bottom: 1.25rem; }
-
-    label {
+    .tab-content.active {
       display: block;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gold-light);
-      margin-bottom: 0.5rem;
     }
-
-    input, select {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid var(--glass-border);
-      border-radius: 8px;
-      color: #FFF;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.3s ease;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-<
-    input:focus, select:focus {
-      border-color: var(--gold-primary);
+    .luxury-pass {
+      position: relative;
+      background: linear-gradient(135deg, #161D31 0%, #0F172A 60%, #1E1B4B 100%);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(245, 158, 11, 0.15);
     }
-
-    option {
-      background-color: #2B0410;
-      color: #FFF;
+    .luxury-pass::before, .luxury-pass::after {
+      content: '';
+      position: absolute;
+      top: 66%;
+      width: 22px;
+      height: 22px;
+      background-color: #0A0F1D;
+      border-radius: 50%;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      z-index: 10;
     }
-
-    .btn-gold {
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(135deg, var(--gold-primary) 0%, #997A15 100%);
-      border: none;
-      border-radius: 8px;
-      color: #000;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: opacity 0.3s ease, transform 0.2s ease;
-    }
-
-    .btn-gold:hover {
-      opacity: 0.9;
-      transform: scale(1.01);
-    }
-
-    #statusMessage {
-      margin-top: 1rem;
-      text-align: center;
-      font-size: 0.875rem;
-    }
+    .luxury-pass::before { left: -12px; }
+    .luxury-pass::after { right: -12px; }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black">
 
-  <div class="container">
-    <header>
-      <h1>GODMANOR</h1>
-      <p>Cloud Engineering & AI Infrastructure Summit</p>
-    </header>
-
-    <!-- Cloud Support & AI Centric Event Showcase -->
-    <div class="events-grid">
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="Cloud Infrastructure" class="card-img" />
-        <div class="card-body">
-          <span class="badge">CLOUD SUPPORT ENGINEERING</span>
-          <h3 class="card-title">AWS VPC & Connectivity Workshop</h3>
-          <p class="card-desc">Master real-time networking diagnosis, EC2 security groups, Route tables, and database connectivity troubleshooting.</p>
+  <!-- Top Glassmorphism Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-[#0B132B]/90 backdrop-blur-md border-b border-amber-500/20 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo & Branding -->
+        <div class="flex items-center gap-3.5 cursor-pointer" onclick="switchTab('events-tab')">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 flex items-center justify-center text-slate-950 font-black text-base shadow-lg shadow-amber-500/20 border border-amber-300">
+            GM
+          </div>
+          <div>
+            <div class="font-brand-display font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100 text-lg leading-tight tracking-wider">
+              GODMANOR
+            </div>
+            <div class="text-[11px] text-amber-400/80 font-medium tracking-wide uppercase">Cloud & AI Summit 2026</div>
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="AI Operations" class="card-img" />
-        <div class="card-body">
-          <span class="badge">JUNIOR AI CLOUD ENGINEER</span>
-          <h3 class="card-title">Serverless AI & GenAI Ops Summit</h3>
-          <p class="card-desc">Deploying serverless AI smart assistants, integrating Bedrock/S3 pipelines, and optimizing event-driven AI handlers.</p>
-        </div>
-      </div>
+        <!-- Navigation Tabs -->
+        <nav class="flex items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-700/80 shadow-inner">
+          <button onclick="switchTab('events-tab')" id="tab-btn-events" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 shadow-md shadow-amber-500/20 transition flex items-center gap-2">
+            <i data-lucide="compass" class="w-4 h-4"></i>
+            <span>Browse Sessions</span>
+          </button>
+          <button onclick="switchTab('register-tab')" id="tab-btn-register" class="tab-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+            <span>Book Tickets</span>
+          </button>
+          <button onclick="switchTab('attendees-tab')" id="tab-btn-attendees" class="tab-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+            <span>Attendees <span id="badgeAttendeeCount" class="ml-1 px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full text-[10px] font-bold">2</span></span>
+          </button>
+        </nav>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80" alt="DevOps Security" class="card-img" />
-        <div class="card-body">
-          <span class="badge">DEVOPS & CLOUD SECURITY</span>
-          <h3 class="card-title">Terraform & CI/CD Masterclass</h3>
-          <p class="card-desc">Automating infrastructure as code, GitHub Actions deployments, and IAM least-privilege security controls.</p>
+        <!-- Right Quick Action -->
+        <div class="hidden sm:flex items-center gap-3">
+          <button onclick="switchTab('register-tab')" class="px-5 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 rounded-xl shadow-lg shadow-amber-500/25 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 border border-amber-300/40">
+            <i data-lucide="ticket" class="w-4 h-4"></i>
+            <span>Issue Pass</span>
+          </button>
         </div>
+
       </div>
     </div>
+  </header>
 
-    <!-- Booking Form Section -->
-    <div class="booking-panel">
-      <h2>Reserve Summit Pass</h2>
-      <form id="registrationForm">
-        <div class="form-group">
-          <label for="userName">Attendee Full Name</label>
-          <input type="text" id="userName" placeholder="e.g. Alex Morgan" required />
+  <!-- Hero Header Banner -->
+  <div class="relative overflow-hidden bg-gradient-to-b from-[#111A35] via-[#0E1528] to-[#0A0F1D] border-b border-amber-500/15 py-10">
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 -right-24 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+        
+        <div class="space-y-3 max-w-2xl">
+          <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500/15 to-rose-500/15 border border-amber-500/30 text-amber-300 text-xs font-semibold shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span>OCTOBER 24–25, 2026 • GLOBAL HYBRID STAGE & VIP SUITES</span>
+          </div>
+          <h1 class="font-brand-display text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-300 to-amber-500 tracking-tight leading-tight">
+            GODMANOR SUMMIT
+          </h1>
+          <p class="text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
+            Enterprise architecture masterclasses, serverless GenAI orchestration, zero-trust infrastructure, and multi-cloud reliability engineering.
+          </p>
         </div>
 
-        <div class="form-group">
-          <label for="eventId">Select Session Track</label>
-          <select id="eventId" required>
-            <option value="evt001">AWS VPC & Connectivity Workshop (Cloud Support)</option>
-            <option value="evt002">Serverless AI & GenAI Ops Summit (AI Engineer)</option>
-            <option value="evt003">Terraform & CI/CD Masterclass (Cloud Security)</option>
-          </select>
+        <!-- Metrics Dashboard -->
+        <div class="grid grid-cols-3 gap-3.5 sm:gap-4">
+          <div class="bg-gradient-to-b from-slate-800/90 to-slate-900/90 border border-slate-700/80 rounded-2xl p-4 text-center backdrop-blur shadow-lg">
+            <div id="statTotalTracks" class="text-2xl font-extrabold text-amber-400">4</div>
+            <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">Tracks</div>
+          </div>
+          <div class="bg-gradient-to-b from-slate-800/90 to-slate-900/90 border border-amber-500/30 rounded-2xl p-4 text-center backdrop-blur shadow-lg shadow-amber-500/5">
+            <div id="statRegistered" class="text-2xl font-extrabold text-white">122</div>
+            <div class="text-[11px] text-amber-400/90 font-bold uppercase tracking-wider mt-0.5">Delegates</div>
+          </div>
+          <div class="bg-gradient-to-b from-slate-800/90 to-slate-900/90 border border-emerald-500/30 rounded-2xl p-4 text-center backdrop-blur shadow-lg shadow-emerald-500/5">
+            <div id="statAvailable" class="text-2xl font-extrabold text-emerald-400">43</div>
+            <div class="text-[11px] text-emerald-400/90 font-bold uppercase tracking-wider mt-0.5">Seats Left</div>
+          </div>
         </div>
 
-        <button type="submit" class="btn-gold">Confirm Summit Registration</button>
-      </form>
-      <div id="statusMessage"></div>
+      </div>
     </div>
   </div>
 
+  <!-- Main Portal Section -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+    <!-- TAB 1: SESSIONS DIRECTORY -->
+    <section id="events-tab" class="tab-content active space-y-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-slate-900/80 p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl backdrop-blur">
+        <div class="relative flex-1 max-w-lg">
+          <i data-lucide="search" class="w-4 h-4 text-amber-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+          <input 
+            type="text" 
+            id="eventSearchInput" 
+            placeholder="Search topic, AWS, Kubernetes, Terraform, speakers..." 
+            class="w-full pl-11 pr-4 py-2.5 text-sm bg-slate-950/80 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+          />
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2" id="trackFilterGroup">
+          <button class="track-btn active px-3.5 py-2 text-xs font-bold rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-md shadow-amber-500/20 transition" data-track="ALL">
+            All Tracks
+          </button>
+          <button class="track-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80 border border-slate-700 transition" data-track="Cloud Support Engineering">
+            Cloud Support
+          </button>
+          <button class="track-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80 border border-slate-700 transition" data-track="AI Cloud Engineering">
+            AI & GenAI
+          </button>
+          <button class="track-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80 border border-slate-700 transition" data-track="DevOps & Cloud Security">
+            DevOps & CI/CD
+          </button>
+          <button class="track-btn px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80 border border-slate-700 transition" data-track="Platform Engineering">
+            Kubernetes
+          </button>
+        </div>
+      </div>
+
+      <div id="eventsListGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- TAB 2: BOOK TICKETS & LUXURY PASS PREVIEW -->
+    <section id="register-tab" class="tab-content space-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <div class="lg:col-span-7 bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl space-y-6">
+          <div class="border-b border-slate-800 pb-4">
+            <div class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">
+              <i data-lucide="ticket" class="w-3.5 h-3.5"></i> Summit Pass Portal
+            </div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Register Delegate Credentials</h2>
+            <p class="text-xs text-slate-400 mt-1">Complete your information to generate your verified digital Summit Badge.</p>
+          </div>
+
+          <form id="registrationForm" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="regName" class="block text-xs font-bold text-slate-300 mb-1.5">Full Name <span class="text-amber-400">*</span></label>
+                <input 
+                  type="text" 
+                  id="regName" 
+                  required 
+                  placeholder="e.g. Maya Lin" 
+                  class="w-full px-4 py-3 text-sm bg-slate-950/90 border border-slate-700 rounded-xl text-white focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition placeholder-slate-500"
+                />
+              </div>
+              <div>
+                <label for="regEmail" class="block text-xs font-bold text-slate-300 mb-1.5">Work Email <span class="text-amber-400">*</span></label>
+                <input 
+                  type="email" 
+                  id="regEmail" 
+                  required 
+                  placeholder="maya@company.com" 
+                  class="w-full px-4 py-3 text-sm bg-slate-950/90 border border-slate-700 rounded-xl text-white focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition placeholder-slate-500"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="regCompany" class="block text-xs font-bold text-slate-300 mb-1.5">Organization / Enterprise</label>
+                <input 
+                  type="text" 
+                  id="regCompany" 
+                  placeholder="e.g. Acme Cloud Systems" 
+                  class="w-full px-4 py-3 text-sm bg-slate-950/90 border border-slate-700 rounded-xl text-white focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition placeholder-slate-500"
+                />
+              </div>
+              <div>
+                <label for="regRole" class="block text-xs font-bold text-slate-300 mb-1.5">Job Title</label>
+                <input 
+                  type="text" 
+                  id="regRole" 
+                  placeholder="e.g. Senior Cloud Architect" 
+                  class="w-full px-4 py-3 text-sm bg-slate-950/90 border border-slate-700 rounded-xl text-white focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition placeholder-slate-500"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="regEventId" class="block text-xs font-bold text-slate-300 mb-1.5">Masterclass / Session Track <span class="text-amber-400">*</span></label>
+              <select 
+                id="regEventId" 
+                required 
+                class="w-full px-4 py-3 text-sm bg-slate-950/90 border border-slate-700 rounded-xl text-white focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+              ></select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-2">Pass Access Tier</label>
+              <div class="grid grid-cols-3 gap-3" id="passTierOptions">
+                <div class="tier-card active p-3 rounded-2xl border-2 border-amber-400 bg-amber-500/10 cursor-pointer text-center transition" data-tier="VIP Keynote Pass">
+                  <div class="text-xs font-bold text-amber-300">VIP Keynote</div>
+                  <div class="text-[10px] text-amber-400/80 font-medium">Lounge + Sandbox</div>
+                </div>
+                <div class="tier-card p-3 rounded-2xl border border-slate-700 bg-slate-950/60 hover:bg-slate-800/60 cursor-pointer text-center transition" data-tier="Technical Delegate Pass">
+                  <div class="text-xs font-bold text-slate-300">Tech Delegate</div>
+                  <div class="text-[10px] text-slate-500 font-medium">Full Lab Access</div>
+                </div>
+                <div class="tier-card p-3 rounded-2xl border border-slate-700 bg-slate-950/60 hover:bg-slate-800/60 cursor-pointer text-center transition" data-tier="Executive Access Pass">
+                  <div class="text-xs font-bold text-slate-300">Executive</div>
+                  <div class="text-[10px] text-slate-500 font-medium">Speaker Dinner</div>
+                </div>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              id="btnSubmitRegistration" 
+              class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-extrabold text-sm shadow-xl shadow-amber-500/20 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 border border-amber-300/40"
+            >
+              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              <span>Confirm & Issue Credentials</span>
+            </button>
+
+            <div id="bookingFeedback" class="hidden p-4 rounded-xl text-xs space-y-1"></div>
+          </form>
+        </div>
+
+        <!-- Live Digital Pass Badge -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="eye" class="w-4 h-4"></i>
+            Live Pass Preview
+          </div>
+
+          <div class="luxury-pass p-6 sm:p-7 space-y-6 overflow-hidden">
+            <div class="flex items-center justify-between border-b border-amber-500/20 pb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-black text-xs shadow-md">GM</div>
+                <div>
+                  <div class="font-brand-display font-bold text-amber-200 text-sm tracking-wider">GODMANOR 2026</div>
+                  <div class="text-[9px] text-slate-400 tracking-wider uppercase">Official Summit Delegate</div>
+                </div>
+              </div>
+              <span id="previewTierBadge" class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-md">
+                VIP Keynote Pass
+              </span>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="text-[10px] uppercase font-bold text-amber-400/80 tracking-widest">Summit Delegate</div>
+              <div id="previewAttendeeName" class="text-2xl font-black text-white tracking-tight">Maya Lin</div>
+              <div id="previewAttendeeCompany" class="text-xs text-slate-300 font-medium">Acme Cloud Systems • Senior Architect</div>
+            </div>
+
+            <div class="p-4 bg-slate-950/70 rounded-2xl border border-amber-500/20 space-y-1.5 backdrop-blur">
+              <div id="previewSessionTrack" class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest">AI CLOUD ENGINEERING</div>
+              <div id="previewSessionTitle" class="text-xs font-bold text-slate-100 leading-snug">Serverless AI & GenAI Ops Summit</div>
+              <div class="text-[11px] text-slate-400 flex items-center gap-3 pt-1 font-medium">
+                <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i> Oct 24, 2026</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i> Grand Ballroom</span>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-dashed border-amber-500/30 flex items-center justify-between">
+              <div>
+                <div class="text-[9px] uppercase font-bold text-slate-400 tracking-widest">Access Key ID</div>
+                <div id="previewPassId" class="font-mono text-base font-bold text-amber-300 tracking-wider">GMR-9481</div>
+                <div class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1.5 mt-1">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Cryptographically Verified
+                </div>
+              </div>
+
+              <div class="w-16 h-16 bg-white p-2 rounded-xl shadow-lg flex items-center justify-center">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-slate-950">
+                  <rect x="0" y="0" width="30" height="30"/>
+                  <rect x="5" y="5" width="20" height="20" fill="white"/>
+                  <rect x="10" y="10" width="10" height="10"/>
+                  <rect x="70" y="0" width="30" height="30"/>
+                  <rect x="75" y="5" width="20" height="20" fill="white"/>
+                  <rect x="80" y="10" width="10" height="10"/>
+                  <rect x="0" y="70" width="30" height="30"/>
+                  <rect x="5" y="75" width="20" height="20" fill="white"/>
+                  <rect x="10" y="80" width="10" height="10"/>
+                  <rect x="40" y="15" width="15" height="15"/>
+                  <rect x="45" y="45" width="20" height="20"/>
+                  <rect x="75" y="75" width="25" height="25"/>
+                  <rect x="15" y="40" width="15" height="15"/>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="flex gap-3">
+            <button onclick="window.print()" class="flex-1 py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm">
+              <i data-lucide="printer" class="w-4 h-4 text-amber-400"></i> Print Ticket
+            </button>
+            <button onclick="copyPassLink()" class="flex-1 py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm">
+              <i data-lucide="share-2" class="w-4 h-4 text-amber-400"></i> Share Pass
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 3: ATTENDEES -->
+    <section id="attendees-tab" class="tab-content space-y-8">
+      <div class="bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Delegate Registry
+            </div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Verified Attendees & Passes</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Click any credential card to inspect and load their digital summit pass.</p>
+          </div>
+
+          <div class="relative w-full sm:w-80">
+            <i data-lucide="search" class="w-4 h-4 text-amber-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="attendeeSearchInput" 
+              placeholder="Search by name, company, pass ID..." 
+              class="w-full pl-11 pr-4 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500 transition placeholder-slate-500"
+            />
+          </div>
+        </div>
+
+        <div id="attendeesCardGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Session Detail Modal -->
+  <div id="sessionModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-amber-500/30 shadow-2xl space-y-6 relative">
+      <button onclick="closeSessionModal()" class="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="modalDetailsContent" class="space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition duration-300 bg-slate-900 border border-amber-500/40 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400"></i>
+    <span id="toastMessage">Success</span>
+  </div>
+
+  <!-- Application Script -->
   <script>
-    const form = document.getElementById('registrationForm');
-    const statusMsg = document.getElementById('statusMessage');
+    const defaultEvents = [
+      {
+        eventId: 'EVT-001',
+        title: 'AWS VPC & Cloud Connectivity Deep Dive',
+        track: 'Cloud Support Engineering',
+        badge: 'NETWORKING ARCHITECTURE',
+        level: 'Intermediate',
+        capacity: 45,
+        registered: 38,
+        description: 'Master real-time networking diagnosis, EC2 security groups, Route tables, NAT Gateways, and database connectivity troubleshooting.',
+        imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop',
+        tags: ['AWS', 'VPC', 'Troubleshooting', 'Transit Gateway'],
+        schedule: { date: 'Oct 24, 2026', hall: 'Hall A' },
+        speaker: { name: 'Dr. Sarah Jenkins', title: 'Principal Infrastructure Architect', company: 'Global Cloud Systems', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' }
+      },
+      {
+        eventId: 'EVT-002',
+        title: 'Serverless AI & GenAI Ops Summit',
+        track: 'AI Cloud Engineering',
+        badge: 'GENAI PIPELINES',
+        level: 'All Levels',
+        capacity: 60,
+        registered: 49,
+        description: 'Deploying serverless AI smart assistants, integrating LLMs/S3 pipelines, and optimizing event-driven AI handlers with low latency.',
+        imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop',
+        tags: ['Gemini', 'Bedrock', 'Lambda', 'Serverless'],
+        schedule: { date: 'Oct 24, 2026', hall: 'Grand Ballroom' },
+        speaker: { name: 'Alex Rivera', title: 'Lead AI Engineer', company: 'NeuralForge', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop' }
+      },
+      {
+        eventId: 'EVT-003',
+        title: 'Terraform & CI/CD Security Masterclass',
+        track: 'DevOps & Cloud Security',
+        badge: 'INFRASTRUCTURE AS CODE',
+        level: 'Advanced',
+        capacity: 35,
+        registered: 21,
+        description: 'Automating infrastructure as code, GitHub Actions deployments, and IAM least-privilege security controls with drift detection.',
+        imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop',
+        tags: ['Terraform', 'CI/CD', 'GitHub Actions', 'Security'],
+        schedule: { date: 'Oct 25, 2026', hall: 'Hall B' },
+        speaker: { name: 'Michael Chen', title: 'DevSecOps Specialist', company: 'SecOps Labs', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop' }
+      },
+      {
+        eventId: 'EVT-004',
+        title: 'Zero-Downtime Kubernetes Multi-Cluster Ops',
+        track: 'Platform Engineering',
+        badge: 'KUBERNETES & CONTAINERS',
+        level: 'Advanced',
+        capacity: 25,
+        registered: 14,
+        description: 'Architecting resilient Kubernetes clusters, service meshes, eBPF telemetry, and traffic failover policies across hybrid regions.',
+        imageUrl: 'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?q=80&w=800&auto=format&fit=crop',
+        tags: ['Kubernetes', 'eBPF', 'Istio', 'Containers'],
+        schedule: { date: 'Oct 25, 2026', hall: 'Hall C' },
+        speaker: { name: 'Elena Rostova', title: 'Staff Platform Engineer', company: 'KubeScale', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop' }
+      }
+    ];
 
-    form.addEventListener('submit', async (e) => {
+    let eventsList = defaultEvents;
+    let registrationsList = [
+      { registrationId: 'GMR-9481', userName: 'Maya Lin', email: 'maya@acme.com', company: 'Acme Cloud Systems', role: 'Senior Architect', eventId: 'EVT-002', eventName: 'Serverless AI & GenAI Ops Summit', passTier: 'VIP Keynote Pass' },
+      { registrationId: 'GMR-4812', userName: 'David Kim', email: 'dkim@fintech.io', company: 'Fintech Corp', role: 'DevOps Lead', eventId: 'EVT-003', eventName: 'Terraform & CI/CD Security Masterclass', passTier: 'Technical Delegate Pass' }
+    ];
+
+    let activeTrackFilter = 'ALL';
+    let selectedPassTier = 'VIP Keynote Pass';
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-gradient-to-r', 'from-amber-400', 'to-amber-500', 'text-slate-950', 'shadow-md');
+        btn.classList.add('text-slate-300');
+      });
+
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+
+      const activeBtn = document.getElementById(`tab-btn-${tabId.replace('-tab', '')}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-gradient-to-r', 'from-amber-400', 'to-amber-500', 'text-slate-950', 'shadow-md');
+        activeBtn.classList.remove('text-slate-300');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').innerText = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
+    }
+
+    async function loadSummitData() {
+      try {
+        const [evRes, regRes] = await Promise.all([
+          fetch('/api/events').catch(() => null),
+          fetch('/api/registrations').catch(() => null)
+        ]);
+
+        if (evRes && evRes.ok) eventsList = await evRes.json();
+        if (regRes && regRes.ok) registrationsList = await regRes.json();
+      } catch (err) {
+        console.log('Running in client state.');
+      }
+      renderEvents();
+      populateEventSelect();
+      renderAttendees();
+      updateStats();
+    }
+
+    function updateStats() {
+      const totalSeats = eventsList.reduce((acc, e) => acc + e.capacity, 0);
+      const bookedSeats = eventsList.reduce((acc, e) => acc + e.registered, 0);
+      document.getElementById('statTotalTracks').innerText = eventsList.length;
+      document.getElementById('statRegistered').innerText = bookedSeats;
+      document.getElementById('statAvailable').innerText = totalSeats - bookedSeats;
+      document.getElementById('badgeAttendeeCount').innerText = registrationsList.length;
+    }
+
+    function renderEvents() {
+      const grid = document.getElementById('eventsListGrid');
+      const searchQuery = (document.getElementById('eventSearchInput').value || '').toLowerCase().trim();
+      grid.innerHTML = '';
+
+      const filtered = eventsList.filter(evt => {
+        const matchesTrack = activeTrackFilter === 'ALL' || evt.track === activeTrackFilter;
+        const matchesSearch = !searchQuery || 
+          evt.title.toLowerCase().includes(searchQuery) ||
+          evt.description.toLowerCase().includes(searchQuery) ||
+          (evt.speaker && evt.speaker.name.toLowerCase().includes(searchQuery)) ||
+          (evt.tags && evt.tags.some(t => t.toLowerCase().includes(searchQuery)));
+        return matchesTrack && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-slate-900/60 p-12 rounded-3xl border border-slate-800 text-center space-y-2">
+            <i data-lucide="search-x" class="w-10 h-10 text-amber-400/40 mx-auto"></i>
+            <div class="font-bold text-white text-base">No masterclasses match your filter</div>
+            <div class="text-xs text-slate-400">Try modifying your search term or select another track category.</div>
+          </div>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+        return;
+      }
+
+      filtered.forEach(evt => {
+        const percent = Math.min(100, Math.round((evt.registered / evt.capacity) * 100));
+        const isFull = evt.registered >= evt.capacity;
+
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900/90 rounded-3xl border border-slate-800 overflow-hidden flex flex-col justify-between hover:border-amber-500/40 hover:shadow-2xl hover:shadow-amber-500/5 transition duration-300 group';
+        card.innerHTML = `
+          <div>
+            <div class="relative h-48 overflow-hidden bg-slate-950">
+              <img src="${evt.imageUrl}" alt="${evt.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/40"></div>
+              <div class="absolute top-4 left-4">
+                <span class="px-3 py-1 rounded-lg text-[10px] font-extrabold bg-slate-950/80 text-amber-300 border border-amber-500/30 backdrop-blur">
+                  ${evt.badge || evt.track}
+                </span>
+              </div>
+              <div class="absolute top-4 right-4">
+                <span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-500 text-slate-950">
+                  ${evt.level || 'All Levels'}
+                </span>
+              </div>
+            </div>
+
+            <div class="p-6 space-y-3.5">
+              <h3 class="font-bold text-white text-lg leading-snug group-hover:text-amber-300 transition">${evt.title}</h3>
+              <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">${evt.description}</p>
+              
+              ${evt.speaker ? `
+                <div class="flex items-center gap-3 pt-1">
+                  <img src="${evt.speaker.avatar}" alt="${evt.speaker.name}" class="w-8 h-8 rounded-full object-cover border border-amber-400/40" />
+                  <div class="text-xs">
+                    <div class="font-bold text-white">${evt.speaker.name}</div>
+                    <div class="text-slate-400 text-[11px]">${evt.speaker.title}</div>
+                  </div>
+                </div>
+              ` : ''}
+
+              <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-medium">
+                <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i> ${evt.schedule?.date || 'Oct 24, 2026'}</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i> ${evt.schedule?.hall || 'Hall A'}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 pt-0 space-y-3.5">
+            <div class="space-y-1.5">
+              <div class="flex justify-between text-[11px] font-semibold">
+                <span class="text-slate-400">Seat Capacity</span>
+                <span class="text-amber-400">${evt.registered} / ${evt.capacity} booked</span>
+              </div>
+              <div class="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" style="width: ${percent}%"></div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5 pt-1">
+              <button onclick="openSessionModal('${evt.eventId}')" class="py-2.5 px-3 text-xs font-bold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 rounded-xl transition">
+                Details
+              </button>
+              <button onclick="bookSpecificSession('${evt.eventId}')" ${isFull ? 'disabled' : ''} class="py-2.5 px-3 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${isFull ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 shadow-md shadow-amber-500/20'}">
+                ${isFull ? 'Sold Out' : 'Register'}
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function populateEventSelect() {
+      const select = document.getElementById('regEventId');
+      select.innerHTML = '';
+      eventsList.forEach(e => {
+        const opt = document.createElement('option');
+        opt.value = e.eventId;
+        opt.innerText = `${e.title} (${e.track}) — ${e.capacity - e.registered} seats left`;
+        select.appendChild(opt);
+      });
+      updateTicketPreview();
+    }
+
+    document.querySelectorAll('.track-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.track-btn').forEach(b => {
+          b.classList.remove('active', 'bg-gradient-to-r', 'from-amber-400', 'to-amber-500', 'text-slate-950', 'shadow-md');
+          b.classList.add('bg-slate-800/80', 'text-slate-300');
+        });
+        btn.classList.add('active', 'bg-gradient-to-r', 'from-amber-400', 'to-amber-500', 'text-slate-950', 'shadow-md');
+        btn.classList.remove('bg-slate-800/80', 'text-slate-300');
+        activeTrackFilter = btn.dataset.track;
+        renderEvents();
+      });
+    });
+
+    document.getElementById('eventSearchInput').addEventListener('input', renderEvents);
+
+    function bookSpecificSession(eventId) {
+      document.getElementById('regEventId').value = eventId;
+      updateTicketPreview();
+      switchTab('register-tab');
+      document.getElementById('regName').focus();
+    }
+
+    function updateTicketPreview() {
+      const name = document.getElementById('regName').value.trim() || 'Maya Lin';
+      const company = document.getElementById('regCompany').value.trim() || 'Acme Cloud Systems';
+      const role = document.getElementById('regRole').value.trim() || 'Senior Architect';
+      const eventId = document.getElementById('regEventId').value;
+
+      document.getElementById('previewAttendeeName').innerText = name;
+      document.getElementById('previewAttendeeCompany').innerText = `${company} • ${role}`;
+      document.getElementById('previewTierBadge').innerText = selectedPassTier;
+
+      const evt = eventsList.find(e => e.eventId === eventId) || eventsList[0];
+      if (evt) {
+        document.getElementById('previewSessionTrack').innerText = (evt.badge || evt.track).toUpperCase();
+        document.getElementById('previewSessionTitle').innerText = evt.title;
+      }
+    }
+
+    ['regName', 'regCompany', 'regRole', 'regEventId'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', updateTicketPreview);
+        el.addEventListener('change', updateTicketPreview);
+      }
+    });
+
+    document.querySelectorAll('.tier-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.tier-card').forEach(c => {
+          c.classList.remove('active', 'border-2', 'border-amber-400', 'bg-amber-500/10');
+          c.classList.add('border', 'border-slate-700', 'bg-slate-950/60');
+        });
+        card.classList.add('active', 'border-2', 'border-amber-400', 'bg-amber-500/10');
+        card.classList.remove('border-slate-700', 'bg-slate-950/60');
+        selectedPassTier = card.dataset.tier;
+        updateTicketPreview();
+      });
+    });
+
+    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      statusMsg.style.color = '#F3E5AB';
-      statusMsg.innerText = 'Processing your pass request...';
+      const feedback = document.getElementById('bookingFeedback');
+      const passId = `GMR-${Math.floor(1000 + Math.random() * 9000)}`;
 
-      const payload = {
-        eventId: document.getElementById('eventId').value,
-        userName: document.getElementById('userName').value
+      const newAttendee = {
+        registrationId: passId,
+        userName: document.getElementById('regName').value.trim(),
+        email: document.getElementById('regEmail').value.trim(),
+        company: document.getElementById('regCompany').value.trim() || 'Enterprise Tech',
+        role: document.getElementById('regRole').value.trim() || 'Engineer',
+        eventId: document.getElementById('regEventId').value,
+        eventName: eventsList.find(x => x.eventId === document.getElementById('regEventId').value)?.title || 'Summit Track',
+        passTier: selectedPassTier
       };
 
-      try {
-        const API_URL = 'https://adqrmc34qb.execute-api.us-east-1.amazonaws.com/prod/register';
+      registrationsList.unshift(newAttendee);
+      const ev = eventsList.find(x => x.eventId === newAttendee.eventId);
+      if (ev) ev.registered += 1;
 
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+      document.getElementById('previewPassId').innerText = passId;
 
-        if (res.ok) {
-          statusMsg.style.color = '#4EAF47';
-          statusMsg.innerText = '✨ Summit Registration Confirmed! Check your inbox for access details.';
-          form.reset();
-        } else {
-          throw new Error('Registration failed. Please try again.');
-        }
-      } catch (err) {
-        statusMsg.style.color = '#E54D42';
-        statusMsg.innerText = err.message || 'Error processing request.';
+      if (window.confetti) {
+        window.confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
       }
+
+      feedback.className = 'p-4 rounded-2xl text-xs bg-amber-500/10 border border-amber-500/40 text-amber-300 block space-y-1';
+      feedback.innerHTML = `
+        <div class="font-bold flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400"></i> Credentials Issued!</div>
+        <div>Your Summit Pass ID is <span class="font-mono font-bold bg-amber-400 text-slate-950 px-2 py-0.5 rounded">${passId}</span>.</div>
+      `;
+
+      showToast(`Pass issued for ${newAttendee.userName}`);
+      renderEvents();
+      populateEventSelect();
+      renderAttendees();
+      updateStats();
+    });
+
+    function renderAttendees(list = registrationsList) {
+      const grid = document.getElementById('attendeesCardGrid');
+      grid.innerHTML = '';
+
+      list.forEach(r => {
+        const item = document.createElement('div');
+        item.className = 'p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900 transition cursor-pointer space-y-3';
+        item.onclick = () => loadDelegate(r);
+        item.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white text-sm">${r.userName}</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/10 text-amber-300 border border-amber-500/30">${r.passTier || 'VIP Pass'}</span>
+          </div>
+          <div class="text-xs text-slate-400 font-medium">${r.company} • ${r.role}</div>
+          <div class="text-xs text-slate-300 font-semibold line-clamp-1">${r.eventName}</div>
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+            <span class="font-mono text-amber-400 font-bold">${r.registrationId}</span>
+            <span class="text-emerald-400 font-medium flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active</span>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    document.getElementById('attendeeSearchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      const filtered = registrationsList.filter(r => 
+        r.userName.toLowerCase().includes(query) ||
+        r.registrationId.toLowerCase().includes(query) ||
+        r.company.toLowerCase().includes(query) ||
+        r.eventName.toLowerCase().includes(query)
+      );
+      renderAttendees(filtered);
+    });
+
+    function loadDelegate(r) {
+      document.getElementById('regName').value = r.userName;
+      document.getElementById('regEmail').value = r.email || '';
+      document.getElementById('regCompany').value = r.company || '';
+      document.getElementById('regRole').value = r.role || '';
+      document.getElementById('regEventId').value = r.eventId;
+      document.getElementById('previewPassId').innerText = r.registrationId;
+      selectedPassTier = r.passTier || 'VIP Keynote Pass';
+      updateTicketPreview();
+      switchTab('register-tab');
+      showToast(`Loaded credentials for ${r.userName}`);
+    }
+
+    function openSessionModal(eventId) {
+      const evt = eventsList.find(e => e.eventId === eventId);
+      if (!evt) return;
+
+      const modal = document.getElementById('sessionModal');
+      const content = document.getElementById('modalDetailsContent');
+
+      content.innerHTML = `
+        <div class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">${evt.badge || evt.track}</div>
+        <h3 class="text-2xl font-bold text-white">${evt.title}</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">${evt.description}</p>
+        
+        <div class="space-y-2 pt-2">
+          <div class="text-xs font-bold text-slate-200">Key Technology Stacks</div>
+          <div class="flex flex-wrap gap-2">
+            ${(evt.tags || []).map(t => `<span class="px-3 py-1 rounded-lg bg-slate-800 text-amber-300 border border-slate-700 text-xs font-semibold">${t}</span>`).join('')}
+          </div>
+        </div>
+
+        ${evt.speaker ? `
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 flex items-center gap-3.5">
+            <img src="${evt.speaker.avatar}" alt="${evt.speaker.name}" class="w-11 h-11 rounded-full object-cover border border-amber-400" />
+            <div>
+              <div class="font-bold text-white text-sm">${evt.speaker.name}</div>
+              <div class="text-slate-400 text-xs">${evt.speaker.title} • ${evt.speaker.company}</div>
+            </div>
+          </div>
+        ` : ''}
+
+        <button onclick="closeSessionModal(); bookSpecificSession('${evt.eventId}')" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs shadow-lg transition">
+          Book Pass for This Masterclass
+        </button>
+      `;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function closeSessionModal() {
+      const modal = document.getElementById('sessionModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyPassLink() {
+      const passId = document.getElementById('previewPassId').innerText;
+      navigator.clipboard.writeText(`${window.location.origin}#pass=${passId}`);
+      showToast(`Pass link for ${passId} copied!`);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSummitData();
+      if (window.lucide) window.lucide.createIcons();
     });
   </script>
 </body>
