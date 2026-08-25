@@ -125,6 +125,6 @@ As part of operating and maintaining this system, the following real-world cloud
 <img src="assets/profile.jpeg" width="120" height="120" style="border-radius: 50%;" alt="Sandra Oteng Abrokwah"/>
 
 **Sandra Oteng Abrokwah**
-*Cloud Administrator/Support Engineer*
+*Junior Cloud/Support Engineer*
 * **LinkedIn:** [linkedin.com/in/sandraotengabrokwah](https://linkedin.com)
 * **Certification:** AWS Simulearn AI / Cloud Practitioner
