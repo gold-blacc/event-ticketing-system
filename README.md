@@ -29,7 +29,9 @@ This portal demonstrates production-grade cloud architecture, real-time database
                                                 [ End User Inbox ]
 ```
 
-Static assets (HTML/CSS/JS) are served via **Amazon S3 + CloudFront**, giving the portal global low-latency delivery with no server management.
+![GODMANOR AWS Architecture Diagram](assets/godmanor_architecture.png)
+
+Static assets (HTML/CSS/JS) are served via **Amazon S3 + CloudFront**, giving the portal global low-latency delivery with no server management. Registration requests flow through **API Gateway → Lambda → DynamoDB**, and **DynamoDB Streams** triggers a second Lambda that publishes confirmation emails via **Amazon SNS**.
 
 ---
 
@@ -99,7 +101,7 @@ Static assets (HTML/CSS/JS) are served via **Amazon S3 + CloudFront**, giving th
 
 ## 🔍 Troubleshooting & Cloud Support Scenarios
 
-![Flowchart on a black background showing a vertical sequence of five diagnostic stages connected by arrows and labeled Browser form submit, API Gateway /register, Lambda: registerForEvent, DynamoDB write, DynamoDB Streams trigger, and SNS confirmation email. Each box includes a short subtitle describing the step, and the final bottom line reads Full trace verified end to end using AWS CLI and browser dev tools. The overall tone is technical, clean, and support-focused.](assets/troubleshoot.png)
+![Cloud Support Troubleshooting Diagnostics](assets/troubleshooting.png)
 
 As part of operating and maintaining this system, the following real-world cloud support and diagnostic issues were identified and resolved end-to-end:
 
@@ -120,11 +122,56 @@ As part of operating and maintaining this system, the following real-world cloud
 
 ---
 
+## 🧠 Key Challenges & Lessons Learned
+
+* Learned how DynamoDB Streams connect two independently deployable Lambda functions into a single event-driven pipeline, without either function calling the other directly.
+* Practiced root-cause debugging across a multi-service AWS request path rather than guessing at the failure point — verifying each hop (API Gateway → Lambda → DynamoDB → Streams → SNS) individually with the AWS CLI before concluding where the break was.
+* Improved understanding of how browser caching and CloudFront edge caching are two separate layers — and how to verify a deployment actually succeeded server-side, independent of what the browser displays.
+* Gained hands-on experience distinguishing IAM least-privilege permission errors from application-level bugs during troubleshooting.
+* Practiced documenting cloud architecture and incident resolution clearly enough for another engineer (or a future version of myself) to follow.
+
+## 🔭 Future Improvements
+
+* Send confirmation emails to the specific registrant's address via Amazon SES, rather than a single fixed SNS-subscribed address
+* Add an admin dashboard for organizers to view and manage registrations
+* Add automated integration tests for the registration API endpoint
+* Add CloudWatch alarms for Lambda error rate and API Gateway 5XX responses
+* Support ticket cancellation and capacity tracking per event
+
+---
+
+## 📂 Project Structure
+
+```
+event-ticketing-system/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+├── assets/
+│   ├── godmanor_architecture.png
+│   └── troubleshooting.png
+├── frontend/
+│   └── index.html
+├── functions/
+│   ├── getEventById/
+│   ├── listEvents/
+│   ├── registerForEvent/
+│   └── sendTicketNotification/
+├── terraform/
+│   ├── main.tf
+│   ├── notification_payload.zip
+│   └── terraform.tfstate
+├── .gitignore
+└── README.md
+```
+
+---
+
 ## 👤 Author
 
-<img src="assets/profile.jpeg" width="120" height="120" style="border-radius: 50%;" alt="Sandra Oteng Abrokwah"/>
+<img src="assets/profile.png" width="120" height="120" style="border-radius: 50%;" alt="Sandra Oteng Abrokwah"/>
 
 **Sandra Oteng Abrokwah**
-*Cloud Administrator/Support Engineer*
-* **LinkedIn:** [linkedin.com/in/sandraotengabrokwah](https://linkedin.com)
-* **Certification:** AWS Simulearn AI / Cloud Practitioner
+*Cloud Support Engineer | Junior Cloud Engineer*
+* **LinkedIn:** [linkedin.com/in/sandra-oteng-abrokwah](https://www.linkedin.com/in/sandra-oteng-abrokwah)
+* **Certifications:** AWS SimuLearn - Cloud Practitioner, AWS Knowledge: Cloud Essentials, AWS Knowledge: Amazon Q Developer Fundamentals
