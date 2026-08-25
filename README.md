@@ -172,6 +172,6 @@ event-ticketing-system/
 <img src="assets/profile.png" width="120" height="120" style="border-radius: 50%;" alt="Sandra Oteng Abrokwah"/>
 
 **Sandra Oteng Abrokwah**
-*Cloud Support Engineer | Junior Cloud Engineer*
-* **LinkedIn:** [linkedin.com/in/sandra-oteng-abrokwah](https://www.linkedin.com/in/sandra-oteng-abrokwah)
-* **Certifications:** AWS SimuLearn - Cloud Practitioner, AWS Knowledge: Cloud Essentials, AWS Knowledge: Amazon Q Developer Fundamentals
+*Cloud Support/Junior Engineer*
+* **LinkedIn:** [linkedin.com/in/sandraotengabrokwah](https://linkedin.com)
+* **Certification:** AWS Simulearn AI / Cloud Practitioner
