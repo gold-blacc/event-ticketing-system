@@ -101,7 +101,7 @@ Static assets (HTML/CSS/JS) are served via **Amazon S3 + CloudFront**, giving th
 
 ## 🔍 Troubleshooting & Cloud Support Scenarios
 
-![Cloud Support Troubleshooting Diagnostics](assets/troubleshooting.png)
+![Cloud Support Troubleshooting Diagnostics](assets/troubleshoot.png)
 
 As part of operating and maintaining this system, the following real-world cloud support and diagnostic issues were identified and resolved end-to-end:
 
@@ -149,7 +149,7 @@ event-ticketing-system/
 │       └── deploy.yml
 ├── assets/
 │   ├── godmanor_architecture.png
-│   └── troubleshooting.png
+│   └── troubleshoot.png
 ├── frontend/
 │   └── index.html
 ├── functions/
@@ -169,7 +169,7 @@ event-ticketing-system/
 
 ## 👤 Author
 
-<img src="assets/profile.png" width="120" height="120" style="border-radius: 50%;" alt="Sandra Oteng Abrokwah"/>
+<img src="assets/profile.jpeg" width="120" height="120" style="border-radius: 50%;" alt="Sandra Oteng Abrokwah"/>
 
 **Sandra Oteng Abrokwah**
 *Cloud Support/Junior Engineer*
